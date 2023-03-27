@@ -1,0 +1,6 @@
+{
+  "name": "@proman/sever",
+  "scripts": {
+    "dev": "npx -y chokidar-cli \"**/*.rs\" -c \"cargo run server\" --initial"
+  }
+}

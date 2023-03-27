@@ -1,0 +1,14 @@
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.6.11"
+dotenvy = "0.15.6"
+entity = { path = "../../packages/entity" }
+envy = "0.4.2"
+migration = { path = "../../packages/migration" }
+sea-orm = { version = "0.11.1", features = ["sqlx-sqlite", "runtime-tokio-rustls", "macros"] }
+serde = { version = "1.0.158", features = ["derive"] }
+tokio = { version = "1.26.0", features = ["full"] }
