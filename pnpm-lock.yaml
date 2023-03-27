@@ -4,11 +4,13 @@ importers:
 
   .:
     specifiers:
+      '@types/node': '18'
       prettier: ^2.8.7
       prettier-plugin-svelte: ^2.10.0
       prettier-plugin-tailwindcss: ^0.2.5
       turbo: ^1.8.5
     devDependencies:
+      '@types/node': 18.15.10
       prettier: 2.8.7
       prettier-plugin-svelte: 2.10.0_5ir2xprf4ygk6mygilwnltaw3a
       prettier-plugin-tailwindcss: 0.2.5_ur4yhozmpa5c7u2hssnpuxkrki
@@ -715,6 +717,10 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/node/18.15.10:
+    resolution: {integrity: sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==}
     dev: true
 
   /@types/pug/2.0.6:
