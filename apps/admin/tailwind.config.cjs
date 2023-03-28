@@ -7,7 +7,5 @@ module.exports = {
   plugins: [require("daisyui")],
 
   /** @type {import('./types/daisyui').DaisyUiConfig} */
-  daisyui: {
-    darkTheme: "dark",
-  },
+  daisyui: {},
 };
