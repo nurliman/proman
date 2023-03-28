@@ -1,7 +1,8 @@
-.DS_Store
-node_modules
+**/.DS_Store
+**/node_modules
+**/.svelte-kit
+**/.turbo
 /build
-/.svelte-kit
 /package
 /target
 .env
@@ -9,6 +10,6 @@ node_modules
 !.env.example
 
 # Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+**/pnpm-lock.yaml
+**/package-lock.json
+**/yarn.lock
