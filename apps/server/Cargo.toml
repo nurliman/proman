@@ -4,11 +4,16 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.70"
+async_once = "0.2.6"
 axum = "0.6.11"
 dotenvy = "0.15.6"
-entity = { path = "../../packages/entity" }
 envy = "0.4.2"
-migration = { path = "../../packages/migration" }
-sea-orm = { version = "0.11.1", features = ["sqlx-sqlite", "runtime-tokio-rustls", "macros"] }
+lazy_static = "1.4.0"
+mongodb = "2.5.0"
 serde = { version = "1.0.158", features = ["derive"] }
 tokio = { version = "1.26.0", features = ["full"] }
+tokio-stream = "0.1.14"
+tower-http = { version = "0.4.0", features = ["trace"] }
+tracing = "0.1.38"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }

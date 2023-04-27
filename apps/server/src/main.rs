@@ -1,59 +1,41 @@
-use std::{net::SocketAddr, str::FromStr};
+mod config;
+mod database;
+mod errors;
+mod logger;
+mod models;
+mod repository;
+mod routes;
 
-use axum::{routing::get, Router};
-use migration::{Migrator, MigratorTrait};
-use sea_orm::Database;
-use serde::Deserialize;
+use axum::Router;
+use std::{net::SocketAddr, str::FromStr, sync::Arc};
 
-fn default_host() -> String {
-  "127.0.0.1".to_string()
-}
-
-fn default_port() -> u16 {
-  3000
-}
-
-fn default_db_url() -> String {
-  "sqlite://data.db?mode=rwc".to_string()
-}
-
-#[derive(Deserialize, Debug)]
-struct EnvVar {
-  #[serde(default = "default_host")]
-  server_host: String,
-
-  #[serde(default = "default_port")]
-  server_port: u16,
-
-  #[serde(default = "default_db_url")]
-  db_url: String,
-}
+use crate::{
+  config::env::ENV_CONFIG, database::mongo::MONGODB_CONNECTION, models::process::Process,
+  repository::process::ProcessRepository,
+};
 
 #[tokio::main]
 async fn main() {
-  dotenvy::dotenv().ok();
+  logger::init_logger();
 
-  let env_var: EnvVar = envy::from_env().unwrap();
+  let mongodb_conn = MONGODB_CONNECTION.get().await;
 
-  let db_conn = Database::connect(env_var.db_url.as_str())
-    .await
-    .expect("Database connection failed");
+  let process_collection = mongodb_conn.collection::<Process>("processes");
 
-  Migrator::up(&db_conn, None).await.unwrap();
+  let process_repository = Arc::new(ProcessRepository::new(process_collection));
 
-  let app = Router::new().route("/", get(handler));
+  let app = Router::new()
+    .merge(routes::process::create_router())
+    .with_state(process_repository)
+    .layer(logger::create_logger_middleware());
 
-  let server_url = format!("{}:{}", env_var.server_host, env_var.server_port);
-  let server_addr = SocketAddr::from_str(&server_url).unwrap();
+  let server_url = format!("{}:{}", ENV_CONFIG.server_host, ENV_CONFIG.server_port);
+  let server_address = SocketAddr::from_str(&server_url).unwrap();
 
-  println!("Listening on {}", server_addr);
+  tracing::debug!("Listening on {}", server_address);
 
-  axum::Server::bind(&server_addr)
+  axum::Server::bind(&server_address)
     .serve(app.into_make_service())
     .await
     .unwrap();
-}
-
-async fn handler() -> &'static str {
-  "Hello, world!2222"
 }
